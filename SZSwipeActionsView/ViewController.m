@@ -7,18 +7,46 @@
 //
 
 #import "ViewController.h"
+#import "SZSwipeListView.h"
 
 @interface ViewController ()
+
+@property (nonatomic) SZSwipeListView *listView;
 
 @end
 
 @implementation ViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+@dynamic view;
+- (void)loadView {
+    UIView *v = [UIView new];
+    
+    _listView = [SZSwipeListView new];
+    [v addSubview:_listView];
+    
+    
+    self.view = v;
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    self.listView.numberOfRows = 5;
+    self.listView.viewForRow = ^SZSwipeRow * _Nonnull(NSInteger row) {
+        SZSwipeRow *rowView = [SZSwipeRow new];
+        rowView.titleLabel.text = [@(row) stringValue];
+        
+        return rowView;
+    };
+    
+    [self.listView reload];
+}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    
+    _listView.frame = self.view.bounds;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

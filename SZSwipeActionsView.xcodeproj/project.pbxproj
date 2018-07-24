@@ -14,6 +14,9 @@
 		58A345DF2107590900BE410C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58A345DD2107590900BE410C /* LaunchScreen.storyboard */; };
 		58A345E22107590900BE410C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 58A345E12107590900BE410C /* main.m */; };
 		58A345EC2107590900BE410C /* SZSwipeActionsViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58A345EB2107590900BE410C /* SZSwipeActionsViewTests.m */; };
+		58A345F9210759CE00BE410C /* SZSwipeRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 58A345F8210759CE00BE410C /* SZSwipeRow.m */; };
+		58D80493210767CA0022E2B1 /* SZSwipeListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D80492210767CA0022E2B1 /* SZSwipeListView.m */; };
+		58D8049621076F950022E2B1 /* UIView+SZExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D8049421076F950022E2B1 /* UIView+SZExt.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +43,12 @@
 		58A345E72107590900BE410C /* SZSwipeActionsViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SZSwipeActionsViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		58A345EB2107590900BE410C /* SZSwipeActionsViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SZSwipeActionsViewTests.m; sourceTree = "<group>"; };
 		58A345ED2107590900BE410C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		58A345F7210759CE00BE410C /* SZSwipeRow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SZSwipeRow.h; sourceTree = "<group>"; };
+		58A345F8210759CE00BE410C /* SZSwipeRow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SZSwipeRow.m; sourceTree = "<group>"; };
+		58D80491210767CA0022E2B1 /* SZSwipeListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SZSwipeListView.h; sourceTree = "<group>"; };
+		58D80492210767CA0022E2B1 /* SZSwipeListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SZSwipeListView.m; sourceTree = "<group>"; };
+		58D8049421076F950022E2B1 /* UIView+SZExt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SZExt.m"; sourceTree = "<group>"; };
+		58D8049521076F950022E2B1 /* UIView+SZExt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SZExt.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +94,12 @@
 				58A345D32107590700BE410C /* AppDelegate.m */,
 				58A345D52107590700BE410C /* ViewController.h */,
 				58A345D62107590700BE410C /* ViewController.m */,
+				58A345F7210759CE00BE410C /* SZSwipeRow.h */,
+				58A345F8210759CE00BE410C /* SZSwipeRow.m */,
+				58D80491210767CA0022E2B1 /* SZSwipeListView.h */,
+				58D80492210767CA0022E2B1 /* SZSwipeListView.m */,
+				58D8049521076F950022E2B1 /* UIView+SZExt.h */,
+				58D8049421076F950022E2B1 /* UIView+SZExt.m */,
 				58A345F62107599900BE410C /* Supporting Files */,
 			);
 			path = SZSwipeActionsView;
@@ -211,9 +226,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58A345F9210759CE00BE410C /* SZSwipeRow.m in Sources */,
 				58A345D72107590700BE410C /* ViewController.m in Sources */,
 				58A345E22107590900BE410C /* main.m in Sources */,
+				58D8049621076F950022E2B1 /* UIView+SZExt.m in Sources */,
 				58A345D42107590700BE410C /* AppDelegate.m in Sources */,
+				58D80493210767CA0022E2B1 /* SZSwipeListView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,7 +389,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2484Z5XMVT;
-				INFOPLIST_FILE = SZSwipeActionsView/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/SZSwipeActionsView/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -388,7 +406,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2484Z5XMVT;
-				INFOPLIST_FILE = SZSwipeActionsView/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/SZSwipeActionsView/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
