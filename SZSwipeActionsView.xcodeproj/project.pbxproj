@@ -85,11 +85,7 @@
 				58A345D32107590700BE410C /* AppDelegate.m */,
 				58A345D52107590700BE410C /* ViewController.h */,
 				58A345D62107590700BE410C /* ViewController.m */,
-				58A345D82107590700BE410C /* Main.storyboard */,
-				58A345DB2107590900BE410C /* Assets.xcassets */,
-				58A345DD2107590900BE410C /* LaunchScreen.storyboard */,
-				58A345E02107590900BE410C /* Info.plist */,
-				58A345E12107590900BE410C /* main.m */,
+				58A345F62107599900BE410C /* Supporting Files */,
 			);
 			path = SZSwipeActionsView;
 			sourceTree = "<group>";
@@ -101,6 +97,18 @@
 				58A345ED2107590900BE410C /* Info.plist */,
 			);
 			path = SZSwipeActionsViewTests;
+			sourceTree = "<group>";
+		};
+		58A345F62107599900BE410C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				58A345D82107590700BE410C /* Main.storyboard */,
+				58A345DB2107590900BE410C /* Assets.xcassets */,
+				58A345DD2107590900BE410C /* LaunchScreen.storyboard */,
+				58A345E02107590900BE410C /* Info.plist */,
+				58A345E12107590900BE410C /* main.m */,
+			);
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
