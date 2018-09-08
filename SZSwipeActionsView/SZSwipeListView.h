@@ -10,12 +10,22 @@
 #import "SZSwipeRow.h"
 
 NS_ASSUME_NONNULL_BEGIN
+typedef void (^SZSwipeListViewVoidBlock)(void);
+typedef void (^SZSwipeListViewSelectForRowBlock)(NSUInteger row);
+typedef void (^SZSwipeListViewSelectForActionInRowBlock)(NSUInteger row, NSUInteger actionIndex);
+
+typedef NSArray<SZSwipeRowAction *> *(^SZSwipeListViewActionForRowBlock)(NSInteger row);
 
 @interface SZSwipeListView : UIView
 
 @property (nonatomic) NSUInteger numberOfRows;
 
 @property (nonatomic, copy) SZSwipeRow *(^viewForRow)(NSInteger row);
+@property (nonatomic, copy) SZSwipeListViewActionForRowBlock actionHandler;
+
+@property (nonatomic, copy) SZSwipeListViewSelectForRowBlock selectionHandler;
+@property (nonatomic, copy) SZSwipeListViewSelectForActionInRowBlock actionSelectionHander;
+
 
 - (void)reload;
 

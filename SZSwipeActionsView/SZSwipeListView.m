@@ -17,6 +17,10 @@
 @property (nonatomic) UIStackView *contentStackView;
 @property (nonatomic, copy) NSArray<SZSwipeRow *> *rows;
 
+@property (nonatomic) UIPanGestureRecognizer *swipeGestureRecognizer;
+
+@property (nonatomic) SZSwipeRow *currentSwipeRow;
+
 @end
 
 @implementation SZSwipeListView
@@ -52,9 +56,20 @@
         _contentStackView.translatesAutoresizingMaskIntoConstraints = NO;
         [_contentView addSubview:_contentStackView];
         [NSLayoutConstraint activateConstraints:[_contentStackView sz_extentToEdgesConstraintsWithView:_contentView]];
-
+        
+        // gesture
+        _swipeGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
+        [_contentStackView addGestureRecognizer:_swipeGestureRecognizer];
+        
+        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
+        [_contentStackView addGestureRecognizer:tapGestureRecognizer];
     }
+    
     return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
 }
 
 #pragma mark - private
@@ -65,6 +80,113 @@
     return view;
 }
 
+- (void)_hideSwipe {
+    [UIView animateWithDuration:0.4
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         CGPoint originCenter = CGPointMake(CGRectGetMidX(self.currentSwipeRow.bounds), self.currentSwipeRow.center.y);
+                         self.currentSwipeRow.center = originCenter;
+                     }
+                     completion:nil];
+}
+
+- (void)_reveal {
+    [UIView animateWithDuration:0.4
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         CGPoint newCenter =  CGPointMake(CGRectGetMidX(self.currentSwipeRow.bounds)- [self _actionsViewWidth], self.currentSwipeRow.center.y);
+                         self.currentSwipeRow.center = newCenter;
+                     }
+                     completion:nil];
+}
+
+- (CGFloat)_actionsViewWidth {
+    return CGRectGetWidth(self.currentSwipeRow.actionsView.bounds);
+}
+
+#pragma mark - actions
+- (void)onPan:(UIPanGestureRecognizer *)sender {
+    CGPoint location = [sender locationInView:sender.view];
+    CGPoint translation = [sender translationInView:sender.view.superview];
+    
+    CGPoint originCenter = CGPointMake(CGRectGetMidX(_currentSwipeRow.bounds), _currentSwipeRow.center.y);
+    CGPoint newCenter =  CGPointMake(_currentSwipeRow.center.x + translation.x, _currentSwipeRow.center.y);
+    
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        __block SZSwipeRow *swipeRow;
+        [self.rows enumerateObjectsUsingBlock:^(SZSwipeRow * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj pointInside:[obj convertPoint:location fromView:sender.view] withEvent:nil]) {
+                swipeRow = obj;
+            }
+        }];
+        
+        [self _hideSwipe];
+        _currentSwipeRow = swipeRow;
+    } else if (sender.state == UIGestureRecognizerStateChanged) {
+        if (fabs(newCenter.x - originCenter.x) < [self _actionsViewWidth] && newCenter.x < originCenter.x) { // only supoport swipe left
+            _currentSwipeRow.center = newCenter;
+        }
+        
+        NSLog(@"row:%lu, translation:%@",
+              (unsigned long)[self.rows indexOfObject:_currentSwipeRow],
+              NSStringFromCGPoint(translation));
+        
+        [sender setTranslation:CGPointZero inView:sender.view.superview];
+    } else if (sender.state == UIGestureRecognizerStateEnded) {
+        if (originCenter.x - newCenter.x > [self _actionsViewWidth] / 2.0 ) {
+            [self _reveal];
+        } else {
+            [self _hideSwipe];
+        }
+    }
+}
+
+- (void)onTap:(UITapGestureRecognizer *)sender {
+    CGPoint location = [sender locationInView:sender.view];
+    
+    __block NSUInteger rowIndex = NSNotFound;
+    __block NSUInteger actionIndex = NSNotFound;
+    [self.rows enumerateObjectsUsingBlock:^(SZSwipeRow * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        CGPoint pointInRow = [obj convertPoint:location fromView:sender.view];
+        if ([obj pointInside:pointInRow withEvent:nil]) {
+            rowIndex = idx;
+            *stop = YES;
+            return;
+        }
+        
+        CGPoint pointInActionsView = [obj.actionsView convertPoint:location fromView:sender.view];
+        if ([obj.actionsView pointInside:pointInActionsView withEvent:nil]) {
+            [obj.actionsView.actionViews enumerateObjectsUsingBlock:^(SZSwipeRowActionView * _Nonnull actionView, NSUInteger actionViewIdx, BOOL * _Nonnull stop) {
+                if ([actionView pointInside:[actionView convertPoint:pointInActionsView fromView:obj.actionsView] withEvent:nil]) {
+                    rowIndex = idx;
+                    actionIndex = actionViewIdx;
+                }
+            }];
+            *stop = YES;
+            return;
+        }
+        
+    }];
+    
+    if (rowIndex != NSNotFound) {
+        if (actionIndex != NSNotFound) {
+            if (self.actionSelectionHander) {
+                self.actionSelectionHander(rowIndex, actionIndex);
+            }
+            
+            [self _hideSwipe];
+        } else {
+            [self _hideSwipe];
+            
+            if (self.selectionHandler) {
+                self.selectionHandler(rowIndex);
+            }
+        }
+    }
+
+}
 
 #pragma mark - API
 - (void)reload {
@@ -77,8 +199,12 @@
     NSMutableArray *mrows = [NSMutableArray array];
     for (int row = 0; row < self.numberOfRows; row++) {
         SZSwipeRow *view = self.viewForRow(row);
-        UIView *line = [self _separatorLine];
         
+        if (self.actionHandler) {
+            view.actions = self.actionHandler(row);
+        }
+        
+        UIView *line = [self _separatorLine];
         [view addSubview:line];
         
         line.translatesAutoresizingMaskIntoConstraints = NO;

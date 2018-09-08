@@ -8,8 +8,36 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SZSwipeRow : UIView
+@class SZSwipeRowAction;
+typedef void(^SZSwipeRowActionHandler)(SZSwipeRowAction *action);
+
+@interface SZSwipeRowAction : NSObject
+
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic) UIColor *backgroundColor;
+@property (nonatomic) UIColor *titleColor;
+@property (nonatomic, copy) SZSwipeRowAction *handler;
+
+@end
+
+@interface SZSwipeRowActionView : UIView
 
 @property (nonatomic) UILabel *titleLabel;
+
+@end
+
+@interface SZSwipeRowActionContainerView : UIView
+
+@property (nonatomic, copy) NSArray<SZSwipeRowActionView *> *actionViews;
+
+@end
+
+@interface SZSwipeRow : UIView
+
+@property (nonatomic) UIView *contentView;
+@property (nonatomic) UILabel *titleLabel;
+@property (nonatomic, copy) NSArray<SZSwipeRowAction *> *actions;
+@property (nonatomic) SZSwipeRowActionContainerView *actionsView;
+
 
 @end
