@@ -1,0 +1,6 @@
+# add swipe action to UIView
+
+- support swipe left actions on UIView
+- rows are organized on UIStackView
+- support multiple actions
+- support custome title, backgroundColor, textColor on actions
