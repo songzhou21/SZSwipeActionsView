@@ -9,6 +9,8 @@
 #import "SZSwipeRow.h"
 #import "UIView+SZExt.h"
 
+static const CGFloat ACTION_MINI_WIDTH = 60;
+
 @implementation SZSwipeRowAction
 
 @end
@@ -19,6 +21,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         _titleLabel = [UILabel new];
+        _titleLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:_titleLabel];
         
         _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -32,7 +35,6 @@
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
-    static const CGFloat ACTION_MINI_WIDTH = 44;
     CGSize compressedSize = [self systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
     return CGSizeMake(MAX(ACTION_MINI_WIDTH, compressedSize.width) , compressedSize.height);
 }

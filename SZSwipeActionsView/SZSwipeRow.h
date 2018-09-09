@@ -16,7 +16,6 @@ typedef void(^SZSwipeRowActionHandler)(SZSwipeRowAction *action);
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic) UIColor *backgroundColor;
 @property (nonatomic) UIColor *titleColor;
-@property (nonatomic, copy) SZSwipeRowAction *handler;
 
 @end
 

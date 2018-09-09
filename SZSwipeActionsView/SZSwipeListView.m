@@ -9,6 +9,8 @@
 #import "SZSwipeListView.h"
 #import "UIView+SZExt.h"
 
+static const CGFloat REVEAL_THRESHOLD = 44;
+
 @interface SZSwipeListView ()
 
 @property (nonatomic) UIScrollView *scrollView;
@@ -17,7 +19,7 @@
 @property (nonatomic) UIStackView *contentStackView;
 @property (nonatomic, copy) NSArray<SZSwipeRow *> *rows;
 
-@property (nonatomic) UIPanGestureRecognizer *swipeGestureRecognizer;
+@property (nonatomic) UIPanGestureRecognizer *panGestureRecognizer;
 
 @property (nonatomic) SZSwipeRow *currentSwipeRow;
 
@@ -58,8 +60,8 @@
         [NSLayoutConstraint activateConstraints:[_contentStackView sz_extentToEdgesConstraintsWithView:_contentView]];
         
         // gesture
-        _swipeGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
-        [_contentStackView addGestureRecognizer:_swipeGestureRecognizer];
+        _panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
+        [_contentStackView addGestureRecognizer:_panGestureRecognizer];
         
         UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
         [_contentStackView addGestureRecognizer:tapGestureRecognizer];
@@ -129,13 +131,9 @@
             _currentSwipeRow.center = newCenter;
         }
         
-        NSLog(@"row:%lu, translation:%@",
-              (unsigned long)[self.rows indexOfObject:_currentSwipeRow],
-              NSStringFromCGPoint(translation));
-        
         [sender setTranslation:CGPointZero inView:sender.view.superview];
     } else if (sender.state == UIGestureRecognizerStateEnded) {
-        if (originCenter.x - newCenter.x > [self _actionsViewWidth] / 2.0 ) {
+        if (originCenter.x - newCenter.x > REVEAL_THRESHOLD) {
             [self _reveal];
         } else {
             [self _hideSwipe];

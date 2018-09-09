@@ -9,6 +9,19 @@
 #import "ViewController.h"
 #import "SZSwipeListView.h"
 
+@interface SZCustomSwipeRow : SZSwipeRow
+
+@end
+
+
+@implementation SZCustomSwipeRow
+
+- (CGSize)intrinsicContentSize {
+    return CGSizeMake(UIViewNoIntrinsicMetric, 80);
+}
+
+@end
+
 @interface ViewController ()
 
 @property (nonatomic) SZSwipeListView *listView;
@@ -33,7 +46,7 @@
 
     self.listView.numberOfRows = 2;
     self.listView.viewForRow = ^SZSwipeRow * _Nonnull(NSInteger row) {
-        SZSwipeRow *rowView = [SZSwipeRow new];
+        SZCustomSwipeRow *rowView = [SZCustomSwipeRow new];
         rowView.titleLabel.text = [@(row) stringValue];
         
         return rowView;
