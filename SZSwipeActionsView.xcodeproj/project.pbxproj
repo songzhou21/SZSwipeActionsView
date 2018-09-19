@@ -69,6 +69,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		58751A2B2151DDC900E9AF25 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				58A345F7210759CE00BE410C /* SZSwipeRow.h */,
+				58A345F8210759CE00BE410C /* SZSwipeRow.m */,
+				58D80491210767CA0022E2B1 /* SZSwipeListView.h */,
+				58D80492210767CA0022E2B1 /* SZSwipeListView.m */,
+				58D8049521076F950022E2B1 /* UIView+SZExt.h */,
+				58D8049421076F950022E2B1 /* UIView+SZExt.m */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 		58A345C62107590700BE410C = {
 			isa = PBXGroup;
 			children = (
@@ -94,12 +107,7 @@
 				58A345D32107590700BE410C /* AppDelegate.m */,
 				58A345D52107590700BE410C /* ViewController.h */,
 				58A345D62107590700BE410C /* ViewController.m */,
-				58A345F7210759CE00BE410C /* SZSwipeRow.h */,
-				58A345F8210759CE00BE410C /* SZSwipeRow.m */,
-				58D80491210767CA0022E2B1 /* SZSwipeListView.h */,
-				58D80492210767CA0022E2B1 /* SZSwipeListView.m */,
-				58D8049521076F950022E2B1 /* UIView+SZExt.h */,
-				58D8049421076F950022E2B1 /* UIView+SZExt.m */,
+				58751A2B2151DDC900E9AF25 /* src */,
 				58A345F62107599900BE410C /* Supporting Files */,
 			);
 			path = SZSwipeActionsView;

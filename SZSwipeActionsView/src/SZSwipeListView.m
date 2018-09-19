@@ -14,7 +14,6 @@ static const CGFloat REVEAL_THRESHOLD = 44;
 @interface SZSwipeListView ()
 
 @property (nonatomic) UIScrollView *scrollView;
-@property (nonatomic) UIView *contentView;
 
 @property (nonatomic) UIStackView *contentStackView;
 @property (nonatomic, copy) NSArray<SZSwipeRow *> *rows;
@@ -38,26 +37,20 @@ static const CGFloat REVEAL_THRESHOLD = 44;
         _scrollView.alwaysBounceVertical = YES;
         [self addSubview:_scrollView];
         
-        _contentView = [UIView new];
-        [_scrollView addSubview:_contentView];
-
         _scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-        _contentView.translatesAutoresizingMaskIntoConstraints = NO;
         [NSLayoutConstraint activateConstraints:[_scrollView sz_extentToEdgesConstraintsWithView:self]];
-        [NSLayoutConstraint activateConstraints:[_contentView sz_extentToEdgesConstraintsWithView:_scrollView]];
 
-        [_contentView.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor].active = YES;
-        NSLayoutConstraint *contentViewHeightConstraint = [_contentView.heightAnchor constraintLessThanOrEqualToAnchor:_scrollView.heightAnchor];
-        contentViewHeightConstraint.priority = UILayoutPriorityDefaultLow;
-        contentViewHeightConstraint.active = YES;
-        
         // stack view
         _contentStackView = [UIStackView new];
         _contentStackView.axis = UILayoutConstraintAxisVertical;
         
         _contentStackView.translatesAutoresizingMaskIntoConstraints = NO;
-        [_contentView addSubview:_contentStackView];
-        [NSLayoutConstraint activateConstraints:[_contentStackView sz_extentToEdgesConstraintsWithView:_contentView]];
+        [_scrollView addSubview:_contentStackView];
+        [NSLayoutConstraint activateConstraints:[_contentStackView sz_extentToEdgesConstraintsWithView:_scrollView]];
+        [_contentStackView.widthAnchor constraintEqualToAnchor:self.scrollView.widthAnchor].active = YES;
+        NSLayoutConstraint *stackHeightC = [_contentStackView.heightAnchor constraintEqualToAnchor:self.scrollView.heightAnchor];
+        stackHeightC.priority = UILayoutPriorityDefaultLow;
+        stackHeightC.active = YES;
         
         // gesture
         _panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
