@@ -11,7 +11,7 @@
 
 static const CGFloat REVEAL_THRESHOLD = 44;
 
-@interface SZSwipeListView ()
+@interface SZSwipeListView () <UIGestureRecognizerDelegate>
 
 @property (nonatomic) UIStackView *contentStackView;
 @property (nonatomic, copy) NSArray<SZSwipeRow *> *rows;
@@ -40,6 +40,7 @@ static const CGFloat REVEAL_THRESHOLD = 44;
 
         // gesture
         _panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
+        _panGestureRecognizer.delegate = self;
         [_contentStackView addGestureRecognizer:_panGestureRecognizer];
         
         UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
@@ -201,5 +202,25 @@ static const CGFloat REVEAL_THRESHOLD = 44;
         [self.contentStackView addArrangedSubview:obj];
     }];
 }
+
+#pragma mark - UIGestureRecognizerDelegate
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    /// decide if pan is in horizontal direction
+    if (gestureRecognizer == self.panGestureRecognizer) {
+        static const double horizontal_angle = 45.0;
+        
+        CGPoint translation = [self.panGestureRecognizer translationInView:self.panGestureRecognizer.view];
+        double angle = atan2(fabs(translation.y), fabs(translation.x));
+        double degree = angle*180/M_PI;
+        if (degree < horizontal_angle) {
+            return YES;
+        }
+
+        return NO;
+    }
+    
+    return [super gestureRecognizerShouldBegin:gestureRecognizer];
+}
+
 
 @end

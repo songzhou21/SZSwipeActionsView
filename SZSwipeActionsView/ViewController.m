@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "SZSwipeListView.h"
+#import "UIView+SZExt.h"
 
 @interface SZCustomSwipeRow : SZSwipeRow
 
@@ -35,22 +36,31 @@
     UIView *v = [UIView new];
     v.backgroundColor = [UIColor whiteColor];
     
+    UIScrollView *scrollView = [UIScrollView new];
+    scrollView.alwaysBounceVertical = YES;
+    [v addSubview:scrollView];
+    
     _listView = [SZSwipeListView new];
-    [v addSubview:_listView];
+    [scrollView addSubview:_listView];
     
+    scrollView.translatesAutoresizingMaskIntoConstraints = NO;
+    [NSLayoutConstraint activateConstraints:
+     [scrollView sz_extentToEdgesConstraintsWithView:v]
+     ];
+
     _listView.translatesAutoresizingMaskIntoConstraints = NO;
-    [_listView.leftAnchor constraintEqualToAnchor:v.leftAnchor].active = YES;
-    [_listView.topAnchor constraintEqualToAnchor:v.topAnchor].active = YES;
-    [_listView.rightAnchor constraintEqualToAnchor:v.rightAnchor].active = YES;
-    [_listView.bottomAnchor constraintLessThanOrEqualToAnchor:v.bottomAnchor].active = YES;
-    
+    [_listView.leftAnchor constraintEqualToAnchor:scrollView.leftAnchor].active = YES;
+    [_listView.topAnchor constraintEqualToAnchor:scrollView.topAnchor].active = YES;
+    [_listView.rightAnchor constraintEqualToAnchor:scrollView.rightAnchor].active = YES;
+    [_listView.widthAnchor constraintEqualToAnchor:scrollView.widthAnchor].active = YES;
+
     self.view = v;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.listView.numberOfRows = 2;
+    self.listView.numberOfRows = 5;
     self.listView.viewForRow = ^SZSwipeRow * _Nonnull(NSInteger row) {
         SZCustomSwipeRow *rowView = [SZCustomSwipeRow new];
         rowView.titleLabel.text = [@(row) stringValue];
