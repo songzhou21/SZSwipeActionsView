@@ -33,10 +33,16 @@
 @dynamic view;
 - (void)loadView {
     UIView *v = [UIView new];
+    v.backgroundColor = [UIColor whiteColor];
     
     _listView = [SZSwipeListView new];
     [v addSubview:_listView];
     
+    _listView.translatesAutoresizingMaskIntoConstraints = NO;
+    [_listView.leftAnchor constraintEqualToAnchor:v.leftAnchor].active = YES;
+    [_listView.topAnchor constraintEqualToAnchor:v.topAnchor].active = YES;
+    [_listView.rightAnchor constraintEqualToAnchor:v.rightAnchor].active = YES;
+    [_listView.bottomAnchor constraintLessThanOrEqualToAnchor:v.bottomAnchor].active = YES;
     
     self.view = v;
 }
@@ -79,8 +85,6 @@
 
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
-    
-    _listView.frame = self.view.bounds;
 }
 
 - (void)didReceiveMemoryWarning {

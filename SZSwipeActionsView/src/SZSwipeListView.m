@@ -13,8 +13,6 @@ static const CGFloat REVEAL_THRESHOLD = 44;
 
 @interface SZSwipeListView ()
 
-@property (nonatomic) UIScrollView *scrollView;
-
 @property (nonatomic) UIStackView *contentStackView;
 @property (nonatomic, copy) NSArray<SZSwipeRow *> *rows;
 
@@ -32,26 +30,14 @@ static const CGFloat REVEAL_THRESHOLD = 44;
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
         
-        // scroll view
-        _scrollView = [UIScrollView new];
-        _scrollView.alwaysBounceVertical = YES;
-        [self addSubview:_scrollView];
-        
-        _scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-        [NSLayoutConstraint activateConstraints:[_scrollView sz_extentToEdgesConstraintsWithView:self]];
-
         // stack view
         _contentStackView = [UIStackView new];
         _contentStackView.axis = UILayoutConstraintAxisVertical;
         
         _contentStackView.translatesAutoresizingMaskIntoConstraints = NO;
-        [_scrollView addSubview:_contentStackView];
-        [NSLayoutConstraint activateConstraints:[_contentStackView sz_extentToEdgesConstraintsWithView:_scrollView]];
-        [_contentStackView.widthAnchor constraintEqualToAnchor:self.scrollView.widthAnchor].active = YES;
-        NSLayoutConstraint *stackHeightC = [_contentStackView.heightAnchor constraintEqualToAnchor:self.scrollView.heightAnchor];
-        stackHeightC.priority = UILayoutPriorityDefaultLow;
-        stackHeightC.active = YES;
-        
+        [self addSubview:_contentStackView];
+        [NSLayoutConstraint activateConstraints:[_contentStackView sz_extentToEdgesConstraintsWithView:self]];
+
         // gesture
         _panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
         [_contentStackView addGestureRecognizer:_panGestureRecognizer];
