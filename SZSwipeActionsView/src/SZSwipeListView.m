@@ -212,8 +212,11 @@ static const CGFloat REVEAL_THRESHOLD = 44;
         CGPoint translation = [self.panGestureRecognizer translationInView:self.panGestureRecognizer.view];
         double angle = atan2(fabs(translation.y), fabs(translation.x));
         double degree = angle*180/M_PI;
+        /// is horizontal pan
         if (degree < horizontal_angle) {
             return YES;
+        } else {
+            [self _hideSwipe];
         }
 
         return NO;
